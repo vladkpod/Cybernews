@@ -1,0 +1,13 @@
+import subprocess
+
+# Run reader.py
+subprocess.run(['python', 'reader.py'])
+
+# Run datacleaner.py
+subprocess.run(['python', 'data_cleaner.py'])
+
+# Run model.py
+subprocess.run(['python', 'model.py'])
+
+# Run app.py
+subprocess.run(['python', 'app.py'])

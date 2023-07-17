@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <section>
+      <h2 class="section-title">Latest Cybersecurity News</h2>
+      <div class="grid">
+        {% for article in articles %}
+          <div class="grid-item">
+            {% if article.thumbnail %}
+              <img src="{{ article.thumbnail }}" alt="{{ article.title }}" class="article-image">
+            {% endif %}
+            <h3 class="article-title">{{ article.title }}</h3>
+            <p class="article-summary">{{ article.summary|truncate_words(20) }} <a href="{{ article.link }}" class="read-more">Read more</a></p>
+            <p class="article-time">{{ article.published }}</p>
+            <div class="clearfix"></div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Additional sections can be added in a similar way -->
+  </div>
+{% endblock %}

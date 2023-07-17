@@ -1,0 +1,99 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.section-title {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.navbar-logo {
+  height: 40px;  /* Adjust as necessary */
+  width: auto;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  word-wrap: break-word; /* Break words to prevent overflow */
+  overflow-wrap: break-word; /* Break words to prevent overflow */
+  min-height: 350px;  /* Adjust as necessary */
+}
+
+
+.article-image {
+  width: 100%;  /* Adjust this value as needed */
+  height: auto;
+  margin-bottom: 2px;  /* Adds some space between the image and the title */
+}
+
+
+.article-title {
+  font-size: 1.1em;
+  margin-bottom: 5px; 
+  padding-bottom: 5px; 
+}
+
+.article-summary {
+  font-size: 1em;
+  padding-top: 5px; 
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.read-more {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.article-time {
+  font-style: italic;
+  font-size: 0.8em;  /* Adjust as necessary */
+  color: #888;  /* Adjust as necessary */
+}
+
+footer {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+footer nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+footer nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+footer nav ul li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.back-to-top {
+  display: block;
+  text-align: right;
+  color: #000;
+  text-decoration: none;
+}

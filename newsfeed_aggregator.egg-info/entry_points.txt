@@ -1,0 +1,3 @@
+[console_scripts]
+build-model = model:build_model
+run-parser = reader:run_parser

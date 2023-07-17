@@ -1,0 +1,13 @@
+MANIFEST.in
+README.md
+setup.py
+newsfeed_aggregator.egg-info/PKG-INFO
+newsfeed_aggregator.egg-info/SOURCES.txt
+newsfeed_aggregator.egg-info/dependency_links.txt
+newsfeed_aggregator.egg-info/entry_points.txt
+newsfeed_aggregator.egg-info/requires.txt
+newsfeed_aggregator.egg-info/top_level.txt
+reader/__init__.py
+reader/data_cleaner.py
+reader/model.py
+reader/reader.py

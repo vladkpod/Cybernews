@@ -1,0 +1,6 @@
+feedparser
+pymongo
+pandas
+nltk
+scikit-learn
+numpy
