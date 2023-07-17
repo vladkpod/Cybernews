@@ -72,11 +72,17 @@ def extract_thumbnail(entry):
     # Retrieve a random image from Pixabay
     if not thumbnail:
         api_key = "38297032-8bacc7c47db30f0e9b5ac6218"
-        query = ["technology"]  # Adjust the query as per your criteria
+        query = ["technology", "computing", "cybersecurity", "encryption", "firewall", "malware", "phishing", 
+                 "ransomware", "spyware", "threat", "vulnerability", "intrusion", "forensics", "network", 
+                 "data", "privacy", "protection", "breach", "alert", "defense", "identity", "risk", "scam", 
+                 "security", "attack", "cybercrime", "hacker", 
+                 "safe", "secure", "system", "information", "internet", "virus", "web", "password"]
         thumbnail = get_random_image_from_pixabay(api_key, query)
 
     return thumbnail
 
+# Create a set to store used image URLs
+used_images = set()
 
 def get_random_image_from_pixabay(api_key, query):
     url = "https://pixabay.com/api/"
@@ -90,7 +96,11 @@ def get_random_image_from_pixabay(api_key, query):
     if response.status_code == 200:
         result = response.json()
         if "hits" in result and len(result["hits"]) > 0:
+            # Select a random image and check if it's been used
             image = random.choice(result["hits"])
+            while image["largeImageURL"] in used_images and len(used_images) < len(result["hits"]):
+                image = random.choice(result["hits"])
+            used_images.add(image["largeImageURL"])
             return image["largeImageURL"]
     return None
 

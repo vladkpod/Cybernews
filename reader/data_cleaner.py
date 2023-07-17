@@ -62,13 +62,7 @@ def clean_data():
     data['word_count'] = data['summary_processed'].apply(lambda x: len([word for word in x.split() if word not in stop_words]))
     data = data[data['word_count'] > 0]
 
-    keywords = {'hack', 'cyber', 'security', 'breach', 'encryption',
-                'malware', 'phishing', 'ransomware', 'virus', 'spyware'}
-
     for article_data in data.to_dict('records'):
-        if not keywords.intersection(article_data['title'].lower().split(), article_data['summary'].lower().split()):
-            continue
-
         db.articles_cleaned.update_one(
             {'title': article_data['title'], 'link': article_data['link']},
             {'$set': article_data},

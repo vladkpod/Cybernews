@@ -2,6 +2,8 @@
 
 {% block head %}
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}
 {% endblock %}
 
 {% block content %}
@@ -23,6 +25,14 @@
       </div>
     </section>
 
-    <!-- Additional sections can be added in a similar way -->
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('home', page=page-1) }}">Previous</a>
+        {% endif %}
+        Page {{ page }} of {{ total_pages }}
+        {% if page < total_pages %}
+        <a href="{{ url_for('articles_page', page=page+1) }}">Next</a>
+        {% endif %}
+    </div>
   </div>
 {% endblock %}
