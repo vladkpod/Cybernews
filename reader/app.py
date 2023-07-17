@@ -63,7 +63,7 @@ def extract_thumbnail(entry):
     # If no thumbnail found, retrieve a random image from Pixabay
     if not thumbnail:
         api_key = "38297032-8bacc7c47db30f0e9b5ac6218"
-        query = ["technology"]  # Adjust the query as per your criteria
+        query = ["technology","computing","cybersecurity"]  # Adjust the query as per your criteria
         thumbnail = get_random_image_from_pixabay(api_key, query)
 
     return thumbnail

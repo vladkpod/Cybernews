@@ -51,22 +51,12 @@ def train_and_validate_model():
     print(f'Recall: {recall_score(y_val, y_pred, average="weighted")}')
     print(f'F1 Score: {f1_score(y_val, y_pred, average="weighted")}')
 
-if __name__ == '__main__':
-    train_and_validate_model()
-
 def load_model(model_file):
     with open(model_file, 'rb') as f:
         model = pickle.load(f)
     return model
 
 model = load_model('model.pkl')
-
-import pickle
-
-def load_model(model_file):
-    with open(model_file, 'rb') as f:
-        model = pickle.load(f)
-    return model
 
 def preprocess_article(article):
     # Apply the same preprocessing steps as used during training
@@ -80,4 +70,4 @@ def predict_category(article):
     return prediction
 
 if __name__ == '__main__':
-    model = load_model('model.pkl')
+    train_and_validate_model()
