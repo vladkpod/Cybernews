@@ -71,7 +71,7 @@ def extract_thumbnail(entry):
 
     # Retrieve a random image from Pixabay
     if not thumbnail:
-        api_key = "38297032-8bacc7c47db30f0e9b5ac6218"
+        api_key = "your_api_key"
         query = ["technology", "computing", "cybersecurity", "encryption", "firewall", "malware", "phishing", 
                  "ransomware", "spyware", "threat", "vulnerability", "intrusion", "forensics", "network", 
                  "data", "privacy", "protection", "breach", "alert", "defense", "identity", "risk", "scam", 
@@ -90,7 +90,7 @@ def get_random_image_from_pixabay(api_key, query):
         "key": api_key,
         "q": query,
         "orientation": "horizontal",
-        "per_page": 10
+        "per_page": 20
     }
     response = requests.get(url, params=params)
     if response.status_code == 200:

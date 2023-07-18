@@ -10,8 +10,12 @@ from bs4 import BeautifulSoup
 from data_cleaner import clean_text
 import random
 import requests
+from flask_caching import Cache
 
 app = Flask(__name__)
+
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+cache.init_app(app)
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['cybersecurity_news']
@@ -61,7 +65,7 @@ def extract_thumbnail(entry):
 
     # If no thumbnail found, retrieve a random image from Pixabay
     if not thumbnail:
-        api_key = "38297032-8bacc7c47db30f0e9b5ac6218"
+        api_key = "your_api_key"
         query = ["technology", "computing", "cybersecurity", "encryption", "firewall", "malware", "phishing", 
                  "ransomware", "spyware", "threat", "vulnerability", "intrusion", "forensics", "network", 
                  "data", "privacy", "protection", "breach", "alert", "defense", "identity", "risk", "scam", 
@@ -80,7 +84,7 @@ def get_random_image_from_pixabay(api_key, query):
         "key": api_key,
         "q": query,
         "orientation": "horizontal",
-        "per_page": 10
+        "per_page": 20
     }
     response = requests.get(url, params=params)
     if response.status_code == 200:
@@ -95,6 +99,7 @@ def get_random_image_from_pixabay(api_key, query):
     return None
 
 
+@cache.memoize(50)
 def get_articles(offset=0, per_page=18):
     articles = []
     sources = {
@@ -123,8 +128,21 @@ def get_articles(offset=0, per_page=18):
 
             cleaned_title = clean_text(title)
 
-            soup = BeautifulSoup(summary, 'html.parser')
-            cleaned_summary = soup.get_text()
+            if summary.startswith("http"):
+                response = requests.get(summary)
+                if response.status_code == 200:
+                    summary = response.text
+                else:
+                    summary = ""
+
+            if summary:
+                if '<' in summary and '>' in summary:
+                    soup = BeautifulSoup(summary, 'html.parser')
+                    cleaned_summary = soup.get_text()
+                else:
+                    cleaned_summary = summary
+            else:
+                cleaned_summary = ""
 
             published_date = parser.parse(entry.published)
 
@@ -148,13 +166,26 @@ def get_articles(offset=0, per_page=18):
 
     articles.sort(key=lambda x: x['published'], reverse=True)
 
-    formatted_articles = []
-    for article in articles:
-        formatted_published_date = article['published'].strftime('%d %B')
-        article['published'] = formatted_published_date
-        formatted_articles.append(article)
+    formatted_articles = [
+        {
+            'source': article['source'],
+            'title': article['title'],
+            'cleaned_title': article['cleaned_title'],
+            'link': article['link'],
+            'published': article['published'].strftime('%d %B'),
+            'summary': article['summary'],
+            'credibility_score': article['credibility_score'],
+            'freshness_score': article['freshness_score'],
+            'engagement_score': article['engagement_score'],
+            'overall_score': article['overall_score'],
+            'thumbnail': article['thumbnail']
+        }
+        for article in articles
+    ]
 
     return formatted_articles[offset:offset + per_page]
+
+
 
 
 @app.route('/', methods=['GET'])
@@ -169,7 +200,10 @@ def home():
         total_pages += 1
     return render_template('index.html', articles=articles, total_pages=total_pages, page=page)
 
-
+@app.route('/clear_cache')
+def clear_cache():
+    cache.clear()
+    return "Cache cleared"
 
 @app.route('/articles/<int:page>', methods=['GET'])
 def articles_page(page):
